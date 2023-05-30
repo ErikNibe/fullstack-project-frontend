@@ -8,6 +8,8 @@ import { useClient } from "../../hooks/useClient";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "./schemas";
 import { ErrorMessage } from "../../styles/ErrorMessage";
+import { Container } from "../../styles/Container";
+import { Logo } from "../../styles/Logo";
 
 export const Login = () => {
   const {
@@ -25,24 +27,28 @@ export const Login = () => {
   };
 
   return (
-    <FormContainer onSubmit={handleSubmit(submit)}>
-      <h2>Login</h2>
+    <Container>
+      <Logo>Kenzie Contacts</Logo>
 
-      <Input type="email" label="Email" register={register("email")} />
-      {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+      <FormContainer onSubmit={handleSubmit(submit)}>
+        <h2>Login</h2>
 
-      <Input type="password" label="Senha" register={register("password")} />
-      {errors.password && (
-        <ErrorMessage>{errors.password.message}</ErrorMessage>
-      )}
+        <Input type="email" label="Email" register={register("email")} />
+        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
-      <Button type="submit" btnColor="blue" btnSize="big">
-        Entrar
-      </Button>
+        <Input type="password" label="Senha" register={register("password")} />
+        {errors.password && (
+          <ErrorMessage>{errors.password.message}</ErrorMessage>
+        )}
 
-      <span>Ainda não possui uma conta?</span>
+        <Button type="submit" btnColor="blue" btnSize="big">
+          Entrar
+        </Button>
 
-      <Link to={"/register"}>Cadastre-se</Link>
-    </FormContainer>
+        <span>Ainda não possui uma conta?</span>
+
+        <Link to={"/register"}>Cadastre-se</Link>
+      </FormContainer>
+    </Container>
   );
 };

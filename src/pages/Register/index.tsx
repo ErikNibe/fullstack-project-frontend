@@ -8,6 +8,8 @@ import { registerSchema } from "./schemas";
 import { tRegisterRequest } from "./interfaces";
 import { ErrorMessage } from "../../styles/ErrorMessage";
 import { useClient } from "../../hooks/useClient";
+import { Container } from "../../styles/Container";
+import { Logo } from "../../styles/Logo";
 
 export const Register = () => {
   const {
@@ -27,36 +29,40 @@ export const Register = () => {
   };
 
   return (
-    <FormContainer onSubmit={handleSubmit(submit)}>
-      <h2>Cadastro</h2>
+    <Container>
+      <Logo>Kenzie Contacts</Logo>
 
-      <Input
-        type="text"
-        label="Nome completo"
-        register={register("fullName")}
-      />
-      {errors.fullName && (
-        <ErrorMessage>{errors.fullName.message}</ErrorMessage>
-      )}
+      <FormContainer onSubmit={handleSubmit(submit)}>
+        <h2>Cadastro</h2>
 
-      <Input type="email" label="Email" register={register("email")} />
-      {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        <Input
+          type="text"
+          label="Nome completo"
+          register={register("fullName")}
+        />
+        {errors.fullName && (
+          <ErrorMessage>{errors.fullName.message}</ErrorMessage>
+        )}
 
-      <Input type="password" label="Senha" register={register("password")} />
-      {errors.password && (
-        <ErrorMessage>{errors.password.message}</ErrorMessage>
-      )}
+        <Input type="email" label="Email" register={register("email")} />
+        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
-      <Input type="text" label="Telefone" register={register("phone")} />
-      {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
+        <Input type="password" label="Senha" register={register("password")} />
+        {errors.password && (
+          <ErrorMessage>{errors.password.message}</ErrorMessage>
+        )}
 
-      <Button type="submit" btnColor="blue" btnSize="big">
-        Cadastrar-se
-      </Button>
+        <Input type="text" label="Telefone" register={register("phone")} />
+        {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
 
-      <span>Já possui conta?</span>
+        <Button type="submit" btnColor="blue" btnSize="big">
+          Cadastrar-se
+        </Button>
 
-      <Link to={"/"}>Ir para o login</Link>
-    </FormContainer>
+        <span>Já possui conta?</span>
+
+        <Link to={"/"}>Ir para o login</Link>
+      </FormContainer>
+    </Container>
   );
 };
