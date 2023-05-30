@@ -21,6 +21,7 @@ export default createGlobalStyle`
     --color-gray-200: #eeeeee;
     --color-gray-100: #f5f5f5;
     --color-white: #FFF;
+    --color-invalid: #E60000;
 
     font-size: 60%;   
   }
