@@ -20,6 +20,21 @@ export const Button = styled.button<iButtonProps>`
 
           font-size: 16px;
         `;
+      case "small":
+        return css`
+          height: 30px;
+          padding: 0 16px;
+
+          font-size: 12px;
+        `;
+      case "add":
+        return css`
+          width: 32px;
+          height: 32px;
+
+          font-weight: 700;
+          font-size: 20px;
+        `;
     }
   }}
 
@@ -34,14 +49,23 @@ export const Button = styled.button<iButtonProps>`
             color: var(--color-white);
           }
         `;
-      //   case "gray":
-      //     return css`
-      //       background-color: var(--color-gray-400);
+      case "gray":
+        return css`
+          background-color: var(--color-gray-400);
 
-      //       &:hover {
-      //         background-color: var(--color-gray-700);
-      //       }
-      //     `;
+          &:hover {
+            background-color: var(--color-gray-700);
+          }
+        `;
+      case "red":
+        return css`
+          background-color: var(--color-invalid);
+          color: var(--color-white);
+
+          &:hover {
+            background-color: var(--color-invalid-hover);
+          }
+        `;
     }
   }}
 `;

@@ -22,6 +22,7 @@ export default createGlobalStyle`
     --color-gray-100: #f5f5f5;
     --color-white: #FFF;
     --color-invalid: #E60000;
+    --color-invalid-hover: #E83F5B;
 
     font-size: 60%;   
   }
