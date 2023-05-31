@@ -11,7 +11,7 @@ export const Input = ({ type, label, register }: iInputProps) => {
   return (
     <InputContainer>
       <label>{label}</label>
-      <input type={type} {...register} required />
+      <input type={type} {...register} />
     </InputContainer>
   );
 };

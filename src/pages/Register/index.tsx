@@ -20,7 +20,7 @@ export const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const { registerClient } = useClient();
+  const { registerClient, requesting } = useClient();
 
   const submit: SubmitHandler<tRegisterRequest> = async (
     data: tRegisterRequest
@@ -56,7 +56,7 @@ export const Register = () => {
         {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
 
         <Button type="submit" btnColor="blue" btnSize="big">
-          Cadastrar-se
+          {requesting ? "Cadastrando..." : "Cadastrar"}
         </Button>
 
         <span>Já possui conta?</span>

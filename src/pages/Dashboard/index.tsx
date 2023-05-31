@@ -5,11 +5,14 @@ import { Logo } from "../../styles/Logo";
 import { ContentContainer, Header, Main, Navbar, Table } from "./styles";
 import { iContact } from "../../providers/types";
 import { api } from "../../services/api";
+import { ModalEditClient } from "../../components/ModalEdit";
 
 export const Dashboard = () => {
-  const { client } = useClient();
+  const { client, setClient, updateClient } = useClient();
 
   const [contacts, setContacts] = useState<iContact[]>([]);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [modalType, setModalType] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -19,13 +22,28 @@ export const Dashboard = () => {
     })();
   }, []);
 
+  const toggleModal = () => setIsOpenModal(!isOpenModal);
+
+  const handleLogout = () => {
+    localStorage.removeItem("client-contacts:token");
+
+    setClient(null);
+  };
+
   return (
     <>
+      {isOpenModal && modalType == "edit-client" && (
+        <ModalEditClient
+          toggleModal={toggleModal}
+          modalType={modalType}
+          editFunction={updateClient}
+        />
+      )}
       <Navbar>
         <ContentContainer>
           <Logo>Kenzie Contacts</Logo>
 
-          <Button btnColor="gray" btnSize="small">
+          <Button btnColor="gray" btnSize="small" onClick={handleLogout}>
             Sair
           </Button>
         </ContentContainer>
@@ -35,7 +53,14 @@ export const Dashboard = () => {
         <ContentContainer>
           <p>Olá, {client?.fullName}</p>
 
-          <Button btnColor="gray" btnSize="small">
+          <Button
+            btnColor="gray"
+            btnSize="small"
+            onClick={() => {
+              setModalType("edit-client");
+              toggleModal();
+            }}
+          >
             Editar perfil
           </Button>
         </ContentContainer>

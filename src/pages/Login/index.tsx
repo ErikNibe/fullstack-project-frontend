@@ -20,7 +20,7 @@ export const Login = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { singIn } = useClient();
+  const { singIn, requesting } = useClient();
 
   const submit: SubmitHandler<tLoginRequest> = async (data: tLoginRequest) => {
     singIn(data);
@@ -42,7 +42,7 @@ export const Login = () => {
         )}
 
         <Button type="submit" btnColor="blue" btnSize="big">
-          Entrar
+          {requesting ? "Entrando..." : "Entrar"}
         </Button>
 
         <span>Ainda não possui uma conta?</span>
