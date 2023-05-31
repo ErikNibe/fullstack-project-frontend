@@ -1,10 +1,23 @@
+import { useEffect, useState } from "react";
 import { useClient } from "../../hooks/useClient";
 import { Button } from "../../styles/Button";
 import { Logo } from "../../styles/Logo";
 import { ContentContainer, Header, Main, Navbar, Table } from "./styles";
+import { iContact } from "../../providers/types";
+import { api } from "../../services/api";
 
 export const Dashboard = () => {
   const { client } = useClient();
+
+  const [contacts, setContacts] = useState<iContact[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await api.get("contacts");
+
+      setContacts(response.data);
+    })();
+  }, []);
 
   return (
     <>
@@ -54,21 +67,24 @@ export const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Fulano</td>
-                <td>fulano@mail.com</td>
-                <td>11 97762-8811</td>
-                <td>
-                  <div>
-                    <Button btnSize="small" btnColor="blue">
-                      editar
-                    </Button>
-                    <Button btnSize="small" btnColor="red">
-                      excluir
-                    </Button>
-                  </div>
-                </td>
-              </tr>
+              {contacts.length > 0 &&
+                contacts.map((contact) => (
+                  <tr key={contact.id}>
+                    <td>{contact.fullName}</td>
+                    <td>{contact.email}</td>
+                    <td>{contact.phone}</td>
+                    <td>
+                      <div>
+                        <Button btnSize="small" btnColor="blue">
+                          editar
+                        </Button>
+                        <Button btnSize="small" btnColor="red">
+                          excluir
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </Table>
         </ContentContainer>

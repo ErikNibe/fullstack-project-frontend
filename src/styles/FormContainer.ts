@@ -6,7 +6,8 @@ export const FormContainer = styled.form`
   gap: 20px;
 
   padding: 30px 20px;
-  width: 370px;
+  width: 90%;
+  max-width: 370px;
 
   border-radius: 4px;
 

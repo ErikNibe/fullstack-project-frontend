@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { tRegisterRequest } from "../pages/Register/interfaces";
 import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,7 @@ interface iClientContextValues {
   singIn: (data: tLoginRequest) => void;
   client: iClient | null;
   setClient: React.Dispatch<React.SetStateAction<iClient | null>>;
+  loading: boolean;
 }
 
 export const ClientContext = createContext<iClientContextValues>(
@@ -24,6 +25,32 @@ export const ClientProvider = ({ children }: iClientProviderProps) => {
   const navigate = useNavigate();
 
   const [client, setClient] = useState<iClient | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadClient = async () => {
+      const token = localStorage.getItem("client-contacts:token");
+
+      if (!token) {
+        setLoading(false);
+
+        return;
+      }
+
+      try {
+        api.defaults.headers.common.authorization = `Bearer ${token}`;
+
+        const response = await api.get("clients");
+        setClient(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadClient();
+  }, []);
 
   const registerClient = async (data: tRegisterRequest) => {
     try {
@@ -47,7 +74,6 @@ export const ClientProvider = ({ children }: iClientProviderProps) => {
 
       const clientResponse = await api.get("clients");
       setClient(clientResponse.data);
-      console.log(clientResponse.data);
 
       navigate("/dashboard");
     } catch (error) {
@@ -57,7 +83,7 @@ export const ClientProvider = ({ children }: iClientProviderProps) => {
 
   return (
     <ClientContext.Provider
-      value={{ registerClient, singIn, client, setClient }}
+      value={{ registerClient, singIn, client, setClient, loading }}
     >
       {children}
     </ClientContext.Provider>
