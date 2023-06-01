@@ -3,24 +3,23 @@ import { useClient } from "../../hooks/useClient";
 import { Button } from "../../styles/Button";
 import { Logo } from "../../styles/Logo";
 import { ContentContainer, Header, Main, Navbar, Table } from "./styles";
-import { iContact } from "../../providers/types";
-import { api } from "../../services/api";
-import { ModalEditClient } from "../../components/ModalEdit";
+import { ModalEditCreate } from "../../components/ModalEditCreate";
+import { ModalDelete } from "../../components/ModalDelete";
+import { pdfReport } from "../../Reports";
 
 export const Dashboard = () => {
-  const { client, setClient, updateClient } = useClient();
+  const { client, setClient, listContacts, contacts } = useClient();
 
-  const [contacts, setContacts] = useState<iContact[]>([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [modalType, setModalType] = useState<string | null>(null);
+  const [modal, setModal] = useState<string | null>(null);
+  const [contactId, setContactId] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
-      const response = await api.get("contacts");
-
-      setContacts(response.data);
+      listContacts();
     })();
-  }, []);
+  }, [listContacts]);
 
   const toggleModal = () => setIsOpenModal(!isOpenModal);
 
@@ -32,11 +31,18 @@ export const Dashboard = () => {
 
   return (
     <>
-      {isOpenModal && modalType == "edit-client" && (
-        <ModalEditClient
+      {isOpenModal && modal === "edit-create" && (
+        <ModalEditCreate
           toggleModal={toggleModal}
           modalType={modalType}
-          editFunction={updateClient}
+          contactId={contactId}
+        />
+      )}
+      {isOpenModal && modal === "delete" && (
+        <ModalDelete
+          toggleModal={toggleModal}
+          modalType={modalType}
+          contactId={contactId}
         />
       )}
       <Navbar>
@@ -53,16 +59,31 @@ export const Dashboard = () => {
         <ContentContainer>
           <p>Olá, {client?.fullName}</p>
 
-          <Button
-            btnColor="gray"
-            btnSize="small"
-            onClick={() => {
-              setModalType("edit-client");
-              toggleModal();
-            }}
-          >
-            Editar perfil
-          </Button>
+          <div>
+            <Button
+              btnColor="gray"
+              btnSize="small"
+              onClick={() => {
+                setModalType("edit-client");
+                setModal("edit-create");
+                toggleModal();
+              }}
+            >
+              Editar perfil
+            </Button>
+
+            <Button
+              btnColor="red"
+              btnSize="small"
+              onClick={() => {
+                setModalType("delete-client");
+                setModal("delete");
+                toggleModal();
+              }}
+            >
+              Deletar perfil
+            </Button>
+          </div>
         </ContentContainer>
       </Header>
 
@@ -71,11 +92,23 @@ export const Dashboard = () => {
           <h2>Contatos</h2>
 
           <div>
-            <Button btnColor="red" btnSize="small">
+            <Button
+              btnColor="red"
+              btnSize="small"
+              onClick={() => pdfReport(client, contacts)}
+            >
               Baixar pdf
             </Button>
 
-            <Button btnColor="gray" btnSize="add">
+            <Button
+              btnColor="gray"
+              btnSize="add"
+              onClick={() => {
+                setModalType("create-contact");
+                setModal("edit-create");
+                toggleModal();
+              }}
+            >
               +
             </Button>
           </div>
@@ -100,10 +133,28 @@ export const Dashboard = () => {
                     <td>{contact.phone}</td>
                     <td>
                       <div>
-                        <Button btnSize="small" btnColor="blue">
+                        <Button
+                          btnSize="small"
+                          btnColor="blue"
+                          onClick={() => {
+                            setModalType("edit-contact");
+                            setModal("edit-create");
+                            setContactId(contact.id);
+                            toggleModal();
+                          }}
+                        >
                           editar
                         </Button>
-                        <Button btnSize="small" btnColor="red">
+                        <Button
+                          btnSize="small"
+                          btnColor="red"
+                          onClick={() => {
+                            setModalType("delete-contact");
+                            setModal("delete");
+                            setContactId(contact.id);
+                            toggleModal();
+                          }}
+                        >
                           excluir
                         </Button>
                       </div>

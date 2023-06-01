@@ -3,7 +3,7 @@ import { z } from "zod";
 export const registerSchema = z.object({
   fullName: z
     .string()
-    .min(8, "O nome é obrigatório e precisa de pelo menos 3 caracteres."),
+    .min(3, "O nome é obrigatório e precisa de pelo menos 3 caracteres."),
   email: z
     .string()
     .min(5, "O email é obrigatório")

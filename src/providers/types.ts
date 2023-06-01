@@ -14,3 +14,9 @@ export interface iClient {
   createdAt: string;
   contacts: [] | iContact[];
 }
+
+export interface iCreateContact {
+  fullName: string;
+  email: string;
+  phone: string;
+}
