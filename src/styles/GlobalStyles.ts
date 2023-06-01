@@ -20,6 +20,9 @@ export default createGlobalStyle`
     --color-gray-300: #e0e0e0;
     --color-gray-200: #eeeeee;
     --color-gray-100: #f5f5f5;
+    --color-white: #FFF;
+    --color-invalid: #E60000;
+    --color-invalid-hover: #E83F5B;
 
     font-size: 60%;   
   }
@@ -43,7 +46,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: var(--color-gray-900);
+    background: var(--color-blue-700);
     color: var(--color-gray-300);
     -webkit-font-smoothing: antialiased;
 
@@ -51,7 +54,7 @@ export default createGlobalStyle`
   }
 
   body, input, button, textarea {
-    font-family: 'Inter';
+    font-family: 'Inter', sans-serif;
     font-size: 1.6rem;
   }
 
