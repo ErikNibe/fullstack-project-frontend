@@ -1,5 +1,4 @@
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import { iClient, iContact } from "../providers/types";
 
@@ -7,8 +6,6 @@ export const pdfReport = (
   client: iClient | null,
   contacts: iContact[] | null
 ) => {
-  pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatedContacts: any = contacts?.map((contact) => {
     return [
