@@ -5,7 +5,7 @@ import { Logo } from "../../styles/Logo";
 import { ContentContainer, Header, Main, Navbar, Table } from "./styles";
 import { ModalEditCreate } from "../../components/ModalEditCreate";
 import { ModalDelete } from "../../components/ModalDelete";
-import { pdfReport } from "../../Reports";
+import { pdfReport } from "../../reports";
 
 export const Dashboard = () => {
   const { client, setClient, listContacts, contacts } = useClient();

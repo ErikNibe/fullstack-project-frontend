@@ -1,4 +1,5 @@
-import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "./vfs_fonts";
+import pdfMaker from "pdfmake/build/pdfmake";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import { iClient, iContact } from "../providers/types";
 
@@ -6,6 +7,8 @@ export const pdfReport = (
   client: iClient | null,
   contacts: iContact[] | null
 ) => {
+  pdfMaker.vfs = pdfFonts;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatedContacts: any = contacts?.map((contact) => {
     return [
@@ -55,5 +58,5 @@ export const pdfReport = (
     },
   };
 
-  pdfMake.createPdf(pdfConfig).download();
+  pdfMaker.createPdf(pdfConfig).download("perfilInfo.pdf");
 };
